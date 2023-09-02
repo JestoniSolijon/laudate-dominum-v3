@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container vh-100 vh-100 d-flex align-items-center justify-content-center" th:if="${#lists.isEmpty(productsList)}">
+    <div class="row justify-content-center">
+        <div class="card text-center border-0" style="width: 35rem;">
+            <div class="card-body">
+                <div class="p-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-cart-x " viewBox="0 0 16 16">
+                        <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"/>
+                        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+
+                </div>
+                <h1 class="card-title p-3">Your Cart is Empty</h1>
+                <p class="card-text p-3 text-muted">Looks like you haven't added anything to your cart yet.</p>
+                <div class="p-3">
+                    <a th:href="@{/}" class="btn btn-primary ">Accessories List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row vh-100" th:if="${not #lists.isEmpty(productsList)}">
+        <div class="col p-3">
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <h3>Cart</h3>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <span class="text-muted"><small>PRODUCT</small></span>
+                </div>
+                <div class="col text-end">
+                    <span class="text-muted"><small> QUANTITY</small></span>
+                </div>
+                <div class="col text-end">
+                    <span class="text-muted px-4"><small>PRICE</small> </span>
+                </div>
+            </div>
+            <div class="row border-top mb-3" th:each="product : ${productsList}">
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-start mt-3">
+                        <div>
+                            <img width="120" height="120" class="shadow-sm bg-body-tertiary rounded border border-danger-subtle"
+                                 th:src="@{/images/__${product?.productName}__/__${product?.productName}__-1.png}"/>
+                        </div>
+                        <div class="px-3">
+                            <span class="d-block" th:text="${#strings.replace(product.productName, '-',' ')}"></span>
+                            <span class="text-muted"><small th:text="${'₱ ' + #numbers.formatDecimal(product?.price, 0, 'COMMA', 2, 'POINT')}"></small></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center d-flex flex-column align-items-center p-3">
+                            <form class="w-100 d-flex w-100  align-items-center text-center flex-column"
+                                  th:action="@{/cart/update-quantity}" method="POST">
+                                <input type="hidden" name="productId" th:value="*{product?.productId}">
+                                <select class="form-select w-75 mb-3" id="quantity" name="quantity" aria-label="Product quantity" onchange="this.form.submit()">
+                                    <option th:each="number : ${#numbers.sequence(1, 100)}"
+                                            th:value="${number}"
+                                            th:text="${number}"
+                                            th:selected="${product?.quantity == number}">
+                                    </option>
+                                </select>
+                            </form>
+                            <div>
+                                <form th:action="@{/cart/remove-product}" method="POST">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3 text-muted" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                    </svg>
+                                    <input type="hidden" name="productId" th:value="*{product?.productId}">
+                                    <button type="submit" class="text-muted border-0 bg-transparent"><small>Remove</small></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3 text-end">
+                        <span th:text="${'₱ ' + #numbers.formatDecimal(product?.price * product?.quantity, 0, 'COMMA', 2, 'POINT')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bg-light d-flex flex-column">
+            <div class="row mt-3 p-3 justify-content-center">
+                <h3 class="text-center mb-3">Order Summary</h3>
+                <div class="row">
+                    <div class="d-flex justify-content-between p-2 mb-2">
+                        <h5 class="col-md-6">Products</h5>
+                        <h5 class="col-md-6 text-end">Quantity</h5>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 mb-2" th:each="product : ${productsList}">
+                        <div class="col-md-6">
+                            <span class="d-block" th:text="${#strings.replace(product.productName, '-',' ')}"></span>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span th:text="${product.quantity}"></span>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="d-flex justify-content-between p-2 mb-3">
+                        <h6 class="col-md-6">Subtotal</h6>
+                        <div class="col-md-6 text-end">
+                            <span th:text="${'₱ ' + #numbers.formatDecimal(productsTotal, 0, 'COMMA', 2, 'POINT')}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 mb-2">
+                        <h6 class="col-md-6 text-muted">Shipping</h6>
+                        <div class="col-md-6 text-end">
+                            <span class="badge text-bg-light text-muted">free</span> ₱ 0.00
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between p-2 mb-3">
+                        <h5 class="col-md-6 fs-4 text-danger">Total</h5>
+                        <div class="col-md-6 text-end text-danger fs-5">
+                            <span th:text="${'₱ ' + #numbers.formatDecimal(productsTotal, 0, 'COMMA', 2, 'POINT')}"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <form th:action="@{/cart-checkout}" method="POST">
+                            <div th:each="product : ${productsList}">
+                                <input type="hidden" name="productId" th:value="${product.productId}">
+                                <input type="hidden" name="quantity" th:value="${product.quantity}">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Checkout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+<script>
+    function updateQuantity() {
+        var selectedQuantity = document.getElementById("quantity").value;
+        document.querySelector('input[name="quantity"]').value = selectedQuantity;
+    }
+</script>
+
+</body>
+</html>

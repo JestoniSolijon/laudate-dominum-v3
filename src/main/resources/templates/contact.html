@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="container">
+        <div class="row gx-5 mt-3">
+            <div class="col-md-5 p-3">
+                <div class="card w-100 bg-light p-3 mb-3 border-0">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-telephone-fill text-primary" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                        </div>
+                        <h6 class="card-title">Call/text us</h6>
+                        <p class="card-text">Mon-Fri from 8am to 5pm.</p>
+                        <p class="card-text">+639 0931 64855</p>
+                    </div>
+                </div>
+
+                <div class="card w-100 bg-light p-3 mb-3 border-0">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-fill text-primary" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                            </svg>
+                        </div>
+                        <h6 class="card-title">Email us</h6>
+                        <p class="card-text">Or you may send your concern via email.</p>
+                        <p class="card-text">mao.officialgroup@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="card w-100 bg-light p-3 mb-3 border-0">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook text-primary" viewBox="0 0 16 16">
+                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                            </svg>
+                        </div>
+                        <h6 class="card-title">Follow our Facebook page</h6>
+                        <p class="card-text">For more update about the products, price, etc.</p>
+                        <a class="" href="https://www.facebook.com/laudatedominumofficial" >facebook.com/laudatedominumofficial</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <form class="row" th:action="@{/contact}" method="POST" th:object="${inquiry}">
+                    <div class="p-2"><h1>Contact us</h1></div>
+                    <div class="p-2 mb-3">
+                        <span>Our friendly team would love to hear from you!</span>
+                    </div>
+                    <div class="col-md-6 p-2">
+                        <label for="first-name" class="form-label">First Name <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="first-name" name="first-name" th:field="*{firstName}" placeholder="Enter your first name">
+                        <span th:if="${#fields.hasErrors('firstName')}"
+                              th:errors="*{firstName}"
+                              class="text-danger fst-italic"
+                              style="font-size: 12px">
+                        </span>
+                    </div>
+                    <div class="col-md-6 p-2">
+                        <label for="last-name" class="form-label">Last Name <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="last-name" name="last-name" th:field="*{lastName}" placeholder="Enter your last name">
+                        <span th:if="${#fields.hasErrors('lastName')}"
+                              th:errors="*{lastName}"
+                              class="text-danger fst-italic"
+                              style="font-size: 12px">
+                        </span>
+                    </div>
+                    <div class="p-2">
+                        <label for="phone-number" class="form-label">Phone Number <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="phone-number" name="phone-number" th:field="*{contactNumber}" placeholder="Enter your phone number">
+                        <span th:if="${#fields.hasErrors('contactNumber')}"
+                              th:errors="*{contactNumber}"
+                              class="text-danger fst-italic"
+                              style="font-size: 12px">
+                        </span>
+                    </div>
+                    <div class="p-2">
+                        <label for="subject" class="form-label">Subject <span class="text-muted fst-italic"> <small>(optional)</small></span></label>
+                        <input type="text" class="form-control" id="subject" name="phone-number" th:field="*{subject}" placeholder="Enter your subject">
+                    </div>
+                    <div class="p-2">
+                        <label for="message">Message <span class="text-danger"> *</span></label>
+                        <textarea class="form-control" placeholder="Type your message" id="message" th:field="*{message}" style="height: 100px"></textarea>
+                        <span th:if="${#fields.hasErrors('message')}"
+                              th:errors="*{message}"
+                              class="text-danger fst-italic"
+                              style="font-size: 12px">
+                        </span>
+                    </div>
+                    <div class="p-2">
+                        <button type="submit" class="btn btn-primary" style="height: 45px;">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
