@@ -47,8 +47,7 @@
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
-</body>
-</html>
+
 
 <!-- Messenger Chat Plugin Code -->
 <div id="fb-root"></div>
@@ -61,7 +60,7 @@
       var chatbox = document.getElementById('fb-customer-chat');
       chatbox.setAttribute("page_id", "124353890559558");
       chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
+    </script>
 
 <!-- Your SDK code -->
 <script>
@@ -79,4 +78,7 @@
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
-  </script>
+    </script>
+</body>
+</html>
+
