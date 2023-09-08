@@ -41,7 +41,7 @@ public class Customer {
     private String region = "";
 
     @Column(name = "zipcode")
-    private int zipcode;
+    private String zipcode;
 
     @Column(name = "email_address")
     private String emailAddress;
@@ -60,9 +60,12 @@ public class Customer {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Orders> orders;*/
 
+    @Column(name = "province")
+    private String province;
+
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String street, String barangay, String city, String region, int zipcode, String emailAddress, String phoneNumber) {
+    public Customer(String firstName, String lastName, String street, String barangay, String city, String region, String zipcode, String emailAddress, String phoneNumber, String province) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
@@ -72,6 +75,7 @@ public class Customer {
         this.zipcode = zipcode;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
+        this.province = province;
     }
 
 
@@ -131,11 +135,11 @@ public class Customer {
         this.region = region;
     }
 
-    public int getZipcode() {
+    public String getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
@@ -155,6 +159,14 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -167,7 +179,9 @@ public class Customer {
                 ", region='" + region + '\'' +
                 ", zipcode=" + zipcode +
                 ", emailAddress='" + emailAddress + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", orders=" + orders +
+                ", province='" + province + '\'' +
                 '}';
     }
 

@@ -80,6 +80,12 @@ public class CheckoutController {
 
         model.addAttribute("regions", locationService.getRegion());
 
+        model.addAttribute("customerProducts", httpSession.getAttribute("customerProducts"));
+        model.addAttribute("totalPrice", httpSession.getAttribute("totalPrice"));
+
+        model.addAttribute("customerSession", customer);
+        session.setAttribute("checkoutApproved", true);
+
         if (bindingResult.hasErrors())
             return "/checkout";
 
@@ -100,8 +106,7 @@ public class CheckoutController {
         httpSession.setAttribute("customerProducts", customerProducts);
         httpSession.setAttribute("totalPrice", totalPrice);
 
-        model.addAttribute("customerSession", customer);
-        session.setAttribute("checkoutApproved", true);
+
 
         return "redirect:/payment";
     }

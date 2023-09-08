@@ -2,53 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Laudate Dominum</title>
+    <link rel="icon" th:href="@{/images/Logo/logo.png}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/navbar :: navbar"></div>
 
-    <div class="container bg-white">
-        <div th:replace="fragments/jumbotron :: jumbotron"></div>
+<div class="container bg-white">
+    <div th:replace="fragments/jumbotron :: jumbotron"></div>
 
 
-        <div class="row" th:action="@{/product}" th:object="${products}" method="POST">
-            <input type="hidden" th:field="*{productId}">
-            <h3 class="pb-2 border-bottom mb-3">Accessories List</h3>
-            <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3" th:each="product : ${productsList}">
-                <a class="text-decoration-none text-center"
-                   th:href="@{/product(productId=${product.productId})}">
+    <div class="row" th:action="@{/product}" th:object="${products}" method="POST">
+        <input type="hidden" th:field="*{productId}">
+        <h3 class="pb-2 border-bottom mb-3">Accessories List</h3>
+        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3" th:each="product : ${productsList}">
+            <a class="text-decoration-none text-center"
+               th:href="@{/product(productId=${product.productId})}">
 
-                    <div class="product shadow-sm bg-body-tertiary rounded border border-danger-subtle">
-                        <img th:src="@{/images/__${product.productName}__/__${product.productName}__-1.png}" class="card-img-top" alt="__${product.productName}__">
-                        <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                            <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                            <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                            <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                        </ul>
-                    </div>
-                    <div th:if="${product.quantity == 0}">
-                        <div class="tag bg-black rounded-end">Out of Stock</div>
-                    </div>
-                    <div th:unless="${product.quantity == 0}">
-                        <div class="tag bg-green rounded-end">Sale</div>
-                    </div>
-          <!--          <div class="tag bg-red rounded-end">sale</div>-->
-                    <div class="title pt-4 pb-1 text-dark" th:text="${#strings.replace(product.productName, '-',' ')}"></div>
-                    <div class="d-flex align-content-center justify-content-center">
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                    </div>
-                    <div class="price card-text text-danger" th:text="${'₱ ' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></div>
-                </a>
-            </div>
+                <div class="product shadow-sm bg-body-tertiary rounded border border-danger-subtle">
+                    <img th:src="@{/images/__${product.productName}__/__${product.productName}__-1.png}" class="card-img-top" alt="__${product.productName}__">
+                </div>
+                <div th:if="${product.quantity == 0}">
+                    <div class="tag bg-black rounded-end">Out of Stock</div>
+                </div>
+                <div th:unless="${product.quantity == 0}">
+                    <div class="tag bg-green rounded-end">Sale</div>
+                </div>
+                <!--          <div class="tag bg-red rounded-end">sale</div>-->
+                <div class="title pt-4 pb-1 text-dark" th:text="${#strings.replace(product.productName, '-',' ')}"></div>
+                <div class="d-flex align-content-center justify-content-center">
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                </div>
+                <div class="price card-text text-danger" th:text="${'₱ ' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></div>
+            </a>
         </div>
     </div>
+</div>
 
-    <div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
+
+<!-- Messenger Chat Plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat Plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "124353890559558");
+      chatbox.setAttribute("attribution", "biz_inbox");
+  </script>
+
+<!-- Your SDK code -->
+<script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v17.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>

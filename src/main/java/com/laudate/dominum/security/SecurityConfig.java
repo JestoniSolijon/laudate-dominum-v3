@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
-@Bean
+    @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
 
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/checkout/**").permitAll()
                         .requestMatchers("/cart/**").permitAll()
+                        .requestMatchers("/about/**").permitAll()
                         .requestMatchers("/cart-checkout/**").permitAll()
                         .requestMatchers("/payment/**").permitAll()
                         .requestMatchers("/save-customer/**").permitAll()
@@ -48,12 +49,12 @@ public class SecurityConfig {
                         .requestMatchers("/admin/dashboard/").hasRole("ADMIN").anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/authenticateTheUser").permitAll()
+                        .loginPage("/login")
+                        .loginProcessingUrl("/authenticateTheUser").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling(configurer -> configurer
-                                .accessDeniedPage("/access-denied"));
+                        .accessDeniedPage("/access-denied"));
         return http.build();
     }
 
